@@ -1,0 +1,61 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="theme-color" content="#f7dadc">
+<meta name="description" content="A panda welcome-back video for my sister.">
+<title>Meri pyaari bhen · Welcome home 🐼</title>
+<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='15' fill='%23f7dadc'/%3E%3Ccircle cx='17' cy='19' r='11' fill='%233a3237'/%3E%3Ccircle cx='47' cy='19' r='11' fill='%233a3237'/%3E%3Ccircle cx='32' cy='34' r='25' fill='%23fff'/%3E%3Cellipse cx='21' cy='34' rx='7' ry='10' fill='%233a3237'/%3E%3Cellipse cx='43' cy='34' rx='7' ry='10' fill='%233a3237'/%3E%3Ccircle cx='32' cy='45' r='5' fill='%233a3237'/%3E%3C/svg%3E">
+<style>
+:root{font-family:ui-sans-serif,system-ui,-apple-system,"Segoe UI",sans-serif;color:#442e37;background:#f7dadc;font-size:16px}
+*{box-sizing:border-box}html,body{margin:0;width:100%;height:100%;overflow:hidden}button{font:inherit;cursor:pointer}button:focus-visible{outline:3px solid #a32549;outline-offset:3px}
+body{background:radial-gradient(circle at 50% 40%,#fff3ef 0%,#f7dadc 62%,#e9b8c3 100%)}
+main{width:100%;height:100%;height:100dvh}
+.player{width:100%;height:100%;position:relative;background:#f8d9db;overflow:hidden}
+.screen{position:absolute;inset:0;background:#f8d9db;overflow:hidden;--card-bg:url('cards/2.png')}
+.screen::before{content:"";position:absolute;inset:-32px;background-image:var(--card-bg);background-size:cover;background-position:center;filter:blur(28px);opacity:.32}
+.card-image{display:block;position:relative;width:100%;height:100%;object-fit:contain}
+.toolbar{position:absolute;bottom:0;left:0;right:0;z-index:2;min-height:76px;display:flex;align-items:center;gap:clamp(8px,1.8vw,18px);padding:14px clamp(13px,2.4vw,24px);padding-bottom:max(12px,env(safe-area-inset-bottom));background:linear-gradient(to bottom,#fff9f700,#fff9f7df 24%,#fff9f7f5);}
+.control{border:1px solid #cda9b1;background:#fff;color:#6d4050;border-radius:100px;min-height:44px;padding:10px 19px;font-weight:800;white-space:nowrap}.control:hover:not(:disabled){background:#ffecf0}.control:disabled{opacity:.45;cursor:default}
+.primary{border-color:#a23d62;background:#ac496c;color:#fff;min-width:128px}.primary:hover:not(:disabled){background:#923353}
+.progress{display:flex;gap:5px;flex:1;min-width:30px;align-items:center}.progress span{height:7px;flex:1;border-radius:20px;background:#e6cbd1;overflow:hidden}.progress span.done{background:#b64a70}.progress span.current{background:#a63861}
+.fullscreen{padding:9px 12px;min-width:44px}.note{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0}
+@media(max-width:700px){.toolbar{gap:8px}.control{padding:9px 14px;min-height:44px;font-size:14px}.primary{min-width:94px}.progress{gap:3px}.progress span{height:6px}}
+@media(max-width:420px){.toolbar{flex-wrap:wrap;min-height:98px;justify-content:center}.progress{order:-1;width:100%;flex:auto}.fullscreen{padding:9px 12px}}
+@media(prefers-reduced-motion:reduce){*,*:before,*:after{scroll-behavior:auto!important;transition:none!important}}
+</style>
+</head>
+<body>
+<main>
+<section class="player" aria-label="Welcome-back video player">
+<div class="screen" id="screen"><img class="card-image" id="card-image" src="cards/2.png" alt="Welcome-back message 1 of 9"></div>
+<div class="toolbar"><button class="control" id="back" type="button" aria-label="Back to previous card">‹ Back</button><div class="progress" id="progress" aria-label="Video card progress"></div><button class="control primary" id="next" type="button">Continue ›</button><button class="control fullscreen" id="fullscreen" type="button" aria-label="Fullscreen video">⛶</button></div>
+</section>
+<p class="note" id="note" role="status" aria-live="polite">Message 1 of 9.</p>
+</main>
+<script>
+const cards=Array.from({length:9},function(_,i){return 'cards/'+(i+2)+'.png'});
+const image=document.getElementById('card-image'),screen=document.getElementById('screen');
+const back=document.getElementById('back'),next=document.getElementById('next');
+const progress=document.getElementById('progress'),note=document.getElementById('note');
+const player=document.querySelector('.player');
+let card=0;
+for(let i=0;i<cards.length;i++){const bar=document.createElement('span');bar.setAttribute('aria-hidden','true');progress.appendChild(bar)}
+function render(){
+back.disabled=card===0;
+next.textContent=card===cards.length-1?'Replay ↻':'Continue ›';
+image.src=cards[card];
+image.alt='Welcome-back message '+(card+1)+' of '+cards.length;
+screen.style.setProperty('--card-bg','url("'+cards[card]+'")');
+Array.from(progress.children).forEach(function(bar,i){bar.className=i<card?'done':i===card?'current':''});
+note.textContent='Message '+(card+1)+' of '+cards.length+'.';
+}
+next.addEventListener('click',function(){card=card===cards.length-1?0:card+1;render()});
+back.addEventListener('click',function(){if(card>0){card--;render()}});
+document.getElementById('fullscreen').addEventListener('click',function(){if(document.fullscreenElement)document.exitFullscreen();else player.requestFullscreen&&player.requestFullscreen()});
+document.addEventListener('keydown',function(event){if(event.key==='ArrowRight')next.click();if(event.key==='ArrowLeft')back.click()});
+render();
+</script>
+</body>
+</html>
