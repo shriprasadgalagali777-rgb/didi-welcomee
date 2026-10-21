@@ -1,0 +1,28 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="theme-color" content="#fff0e4">
+  <meta name="description" content="An interactive welcome-back message made from the original pictures.">
+  <title>Panda Welcome Back</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <main class="experience" aria-label="Panda Welcome Back">
+    <section class="stage" id="stage" aria-live="polite">
+      <article class="slide is-active" aria-hidden="false"><img src="assets/1.png" alt="Original panda opening picture" fetchpriority="high"></article>
+      <article class="slide" aria-hidden="true"><img src="assets/2.png" alt="Original first picture for didi" loading="lazy"></article>
+      <article class="slide" aria-hidden="true"><img src="assets/3.png" alt="Original second picture for didi" loading="lazy"></article>
+      <article class="slide" aria-hidden="true"><img src="assets/4.png" alt="Original third picture for didi" loading="lazy"></article>
+      <article class="slide" aria-hidden="true"><img src="assets/5.png" alt="Original closing picture for didi" loading="lazy"></article>
+    </section>
+    <nav class="controls" aria-label="Picture navigation">
+      <button class="nav-button back" id="back" type="button" aria-label="Back to previous picture" disabled>← Back</button>
+      <div class="progress" id="progress" aria-label="Picture 1 of 5"></div>
+      <button class="nav-button continue" id="continue" type="button" aria-label="Continue to next picture">Continue →</button>
+    </nav>
+  </main>
+  <script src="script.js" defer></script>
+</body>
+</html>
